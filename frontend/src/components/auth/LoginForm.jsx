@@ -65,24 +65,7 @@ const LoginForm = () => {
           <span>{error}</span>{" "}
         </div>
       )}{" "}
-      {/* Demo Credentials Notice */}{" "}
-      <div className="mt-4 rounded-xl bg-slate-50 p-3.5 text-[10px] leading-relaxed text-slate-500">
-        {" "}
-        <span className="font-bold block text-slate-700">
-          Demo Access Accounts:
-        </span>{" "}
-        <div className="mt-1 flex flex-col gap-0.5">
-          {" "}
-          <span>
-            Student: <strong className="font-mono">student@quizrise.com</strong>{" "}
-            / <strong className="font-mono">student123</strong>
-          </span>{" "}
-          <span>
-            Admin: <strong className="font-mono">admin@quizrise.com</strong> /{" "}
-            <strong className="font-mono">admin123</strong>
-          </span>{" "}
-        </div>{" "}
-      </div>{" "}
+      {/* Removed Demo Credentials Notice for Production */}{" "}
       <form onSubmit={handleSubmit} className="mt-6 space-y-4">
         {" "}
         {/* Email */}{" "}

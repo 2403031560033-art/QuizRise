@@ -56,19 +56,7 @@ const RegisterForm = () => {
           <span>{error}</span>{" "}
         </div>
       )}{" "}
-      {/* Special admin trigger notice */}{" "}
-      <div className="mt-4 rounded-xl bg-slate-50 p-3.5 text-[10px] leading-relaxed text-slate-500">
-        {" "}
-        <span className="font-bold text-slate-700 block">
-          Admin Registration Tip:
-        </span>{" "}
-        Register with email{" "}
-        <span className="font-mono font-bold text-primary">
-          admin@quizrise.com
-        </span>{" "}
-        to automatically gain Admin panel authorization on this demo
-        instance.{" "}
-      </div>{" "}
+      {/* Removed Special Admin Trigger Notice for Production */}{" "}
       <form onSubmit={handleSubmit} className="mt-6 space-y-4">
         {" "}
         {/* Name */}{" "}

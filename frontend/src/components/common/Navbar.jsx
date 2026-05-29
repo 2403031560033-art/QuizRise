@@ -45,11 +45,8 @@ const Navbar = () => {
               className="flex items-center gap-2"
             >
               {" "}
-              <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-primary text-white shadow-md shadow-primary/20">
-                {" "}
-                <span className="font-display text-xl font-bold tracking-tight">
-                  Q
-                </span>{" "}
+              <div className="flex h-9 w-9 items-center justify-center rounded-xl overflow-hidden shadow-md shadow-primary/20">
+                <img src="/logo.png" alt="QuizRise Logo" className="h-full w-full object-cover" />
               </div>{" "}
               <span className="font-display text-xl font-bold tracking-tight text-slate-800">
                 {" "}

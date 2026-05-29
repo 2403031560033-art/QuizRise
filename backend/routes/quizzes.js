@@ -88,7 +88,7 @@ router.get('/:id', protect, async (req, res) => {
 // @access  Private/Admin
 router.post('/', protect, verifyAdmin, async (req, res) => {
   try {
-    const { title, description, category, difficulty, duration, passingScore, negativeMarking, tags } = req.body;
+    const { title, description, category, difficulty, duration, passingScore, negativeMarking, tags, questions } = req.body;
 
     if (!title || !description || !category || !difficulty || !duration || !passingScore) {
       return res.status(400).json({ success: false, message: 'Please add all required fields' });
@@ -104,7 +104,7 @@ router.post('/', protect, verifyAdmin, async (req, res) => {
       negativeMarking,
       createdBy: req.user._id,
       tags: tags || [],
-      questions: [], // start with empty questions, added via updates or csv
+      questions: questions || [], // accept initial questions or start empty
     });
 
     await quiz.save();

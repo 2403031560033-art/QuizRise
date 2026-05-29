@@ -88,7 +88,7 @@ router.get('/:id', protect, async (req, res) => {
 // @access  Private/Admin
 router.post('/', protect, verifyAdmin, async (req, res) => {
   try {
-    const { title, description, category, difficulty, duration, passingScore, negativeMarking, tags, questions } = req.body;
+    const { title, description, category, difficulty, duration, passingScore, negativeMarking, tags, questions, isPublished } = req.body;
 
     if (!title || !description || !category || !difficulty || !duration || !passingScore) {
       return res.status(400).json({ success: false, message: 'Please add all required fields' });
@@ -102,6 +102,7 @@ router.post('/', protect, verifyAdmin, async (req, res) => {
       duration,
       passingScore,
       negativeMarking,
+      isPublished: isPublished || false,
       createdBy: req.user._id,
       tags: tags || [],
       questions: questions || [], // accept initial questions or start empty

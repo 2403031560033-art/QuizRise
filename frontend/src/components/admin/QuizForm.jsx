@@ -370,17 +370,20 @@ const QuizForm = ({ quizId, onSaveSuccess, onCancel }) => {
       </div>
 
       {/* CSV Bulk Upload Integrated */}
-      {quizId && (
-        <div className="mt-8 border-t border-slate-100 pt-6">
-          <BulkUpload 
-            quizId={quizId} 
-            onUploadSuccess={(quizObj) => {
-              // Update questions state if CSV uploaded successfully
-              setFormData((prev) => ({ ...prev, questions: quizObj.questions }));
-            }} 
-          />
-        </div>
-      )}
+      <div className="mt-8 border-t border-slate-100 pt-6">
+        <BulkUpload 
+          quizId={quizId || null} 
+          onUploadSuccess={(parsedData) => {
+            if (quizId) {
+              // For existing quiz, it returns the whole updated quiz document
+              setFormData((prev) => ({ ...prev, questions: parsedData.questions }));
+            } else {
+              // For new quiz, it just returns the parsed CSV array, so we append them
+              setFormData((prev) => ({ ...prev, questions: [...prev.questions, ...parsedData.questions] }));
+            }
+          }} 
+        />
+      </div>
 
       {/* Manual Question Modal */}
       {showQuestionModal && (

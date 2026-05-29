@@ -39,22 +39,28 @@ const BulkUpload = ({ quizId, onUploadSuccess }) => {
     setLoading(true);
     setMessage(null);
     try {
-      const response = await API.post(
-        `/quizzes/${quizId}/bulk-upload`,
-        formData,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        },
-      );
+      const endpoint = quizId 
+        ? `/quizzes/${quizId}/bulk-upload`
+        : `/quizzes/parse-csv`;
+        
+      const response = await API.post(endpoint, formData, {
+        headers: { "Content-Type": "multipart/form-data" },
+      });
+      
       if (response.data.success) {
-        setFile(null);{/* Clear file input manually */}document.getElementById("csv-file-input").value = "";
-        toast.success(
-          response.data.message || "Questions imported successfully!",
-        );
+        setFile(null);
+        {/* Clear file input manually */}
+        document.getElementById("csv-file-input").value = "";
+        
+        const successMessage = quizId 
+          ? (response.data.message || "Questions imported successfully!")
+          : "Questions parsed successfully! Review them below before saving.";
+          
+        toast.success(successMessage);
+        
         if (onUploadSuccess) {
-          onUploadSuccess(response.data.quiz);
+          // If quizId exists, response.data.quiz is returned. Otherwise response.data.questions.
+          onUploadSuccess(quizId ? response.data.quiz : { questions: response.data.questions });
         }
       }
     } catch (error) {

@@ -166,6 +166,58 @@ router.delete('/:id', protect, verifyAdmin, async (req, res) => {
   }
 });
 
+// @route   POST /api/quizzes/parse-csv
+// @desc    Parse CSV and return questions without saving
+// @access  Private/Admin
+router.post('/parse-csv', protect, verifyAdmin, upload.single('file'), async (req, res) => {
+  try {
+    if (!req.file) {
+      return res.status(400).json({ success: false, message: 'Please upload a CSV file' });
+    }
+
+    const results = [];
+    fs.createReadStream(req.file.path)
+      .pipe(csv())
+      .on('data', (data) => {
+        const questionText = data.question || data.Question;
+        const optionA = data.optionA || data.OptionA || data.A;
+        const optionB = data.optionB || data.OptionB || data.B;
+        const optionC = data.optionC || data.OptionC || data.C;
+        const optionD = data.optionD || data.OptionD || data.D;
+        const correctIndex = parseInt(data.correctOptionIndex || data.correctAnswer || data.CorrectOptionIndex || data.Answer, 10);
+        const explanationText = data.explanation || data.Explanation || 'No explanation provided.';
+        const marksVal = parseInt(data.marks || data.Marks || '4', 10);
+        const negMarkVal = parseInt(data.negativeMark || data.NegativeMark || '1', 10);
+
+        if (questionText && optionA && optionB && optionC && optionD && !isNaN(correctIndex)) {
+          results.push({
+            question: questionText.trim(),
+            options: [optionA.trim(), optionB.trim(), optionC.trim(), optionD.trim()],
+            correctAnswer: correctIndex,
+            explanation: explanationText.trim(),
+            marks: isNaN(marksVal) ? 4 : marksVal,
+            negativeMark: isNaN(negMarkVal) ? 1 : negMarkVal,
+          });
+        }
+      })
+      .on('end', () => {
+        if (fs.existsSync(req.file.path)) fs.unlinkSync(req.file.path);
+        if (results.length === 0) {
+          return res.status(400).json({ success: false, message: 'No valid questions found. Check columns.' });
+        }
+        res.json({ success: true, questions: results });
+      })
+      .on('error', (err) => {
+        if (fs.existsSync(req.file.path)) fs.unlinkSync(req.file.path);
+        console.error('CSV Parsing Error:', err);
+        res.status(500).json({ success: false, message: 'Error parsing CSV file' });
+      });
+  } catch (error) {
+    console.error('Parse CSV endpoint error:', error);
+    res.status(500).json({ success: false, message: 'Server error' });
+  }
+});
+
 // @route   POST /api/quizzes/:id/bulk-upload
 // @desc    Bulk CSV upload questions into a quiz
 // @access  Private/Admin

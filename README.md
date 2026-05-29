@@ -1,5 +1,7 @@
 # QuizRise - Online Quiz & Assessment Engine
 
+**Live Demo:** [https://quiz-rise.vercel.app/](https://quiz-rise.vercel.app/)
+
 QuizRise is a full-stack, high-fidelity online assessment platform. It provides a real-time, dynamic, and fully functional environment for conducting quizzes and exams, equipped with anti-cheating mechanisms, live leaderboards, and comprehensive analytics.
 
 ## 🚀 Features

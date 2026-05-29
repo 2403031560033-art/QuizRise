@@ -38,16 +38,8 @@ const server = http.createServer(app);
 
 const corsOptions = {
   origin: function (origin, callback) {
-    // Allow requests with no origin (like mobile apps or curl requests)
-    if (!origin) return callback(null, true);
-    
-    // Allow localhost and 127.0.0.1 dynamically based on CLIENT_URL
-    const allowedOrigins = [process.env.CLIENT_URL, 'http://localhost:5174', 'http://127.0.0.1:5174', 'http://localhost:5173', 'http://127.0.0.1:5173'];
-    if (allowedOrigins.indexOf(origin) !== -1 || process.env.CLIENT_URL === '*') {
-      callback(null, true);
-    } else {
-      callback(new Error('Not allowed by CORS'));
-    }
+    // Temporarily allow all origins to prevent Render/Vercel connection issues
+    callback(null, true);
   },
   methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization'],

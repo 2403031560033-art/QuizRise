@@ -88,14 +88,14 @@ Start the backend server:
 npm run dev
 ```
 
-### 2. Frontend Setup (`/client`)
-Open a new terminal, navigate to the client directory and install dependencies:
+### 2. Frontend Setup (`/frontend`)
+Open a new terminal, navigate to the frontend directory and install dependencies:
 ```bash
 cd frontend
 npm install
 ```
 
-Create a `.env` file in the `client` directory:
+Create a `.env` file in the `frontend` directory:
 ```env
 VITE_API_URL=http://localhost:5000/api
 ```
